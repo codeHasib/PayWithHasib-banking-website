@@ -5,11 +5,15 @@
 }
 section {
     max-width: 1200px;
-    margin: auto;
+    margin-left:auto;
+    margin-right: auto;
     padding: 10px 25px;
 }
 .logo {
     width: 120px;
+}
+button {
+    cursor: pointer;
 }
 /* Same Styles */
 #user-info-inputs input {
@@ -19,11 +23,73 @@ section {
     font-size: 18px;
     -webkit-appearance: none;
 }
-#user-info-inputs input::-webkit-outer-spin-button,
-#user-info-inputs input::-webkit-inner-spin-button {
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-.main {
+.app {
+    /* display: block; */
     display: none;
+}
+#user-info {
+    /* display: none; */
+}
+.transaction {
+    padding: 30px 40px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+     i {
+        font-size: 34px;
+        margin-bottom: 10px;
+     }
+     h3 {
+        font-size: 24px;
+        font-weight: bolder;
+     }
+}
+.transaction-pages {
+    height: 100vh;
+    width: 100%;
+    display: none;
+}
+.transaction-page-heading {
+    height: 60vh;
+    display: flex;
+    text-align: center;
+    gap: 10px;
+    h2 {
+        font-size: 20px;
+        font-weight: bolder;
+    }
+    i {
+        font-size: 20px;
+        margin-top: 6px;
+    }
+}
+.transaction-page-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    justify-content: center;
+}
+.transaction-page-input input{
+    border-bottom: 1px solid black;
+    padding: 20px 40px;
+    font-size: 24px;
+    outline: none;
+    text-align: center;
+}
+.transaction-page-input button {
+    padding: 15px 30px;
+    border-radius: 15px;
+    font-size: 18px;
+    font-weight: bolder;
+    background-color: black;
+    color: white;
+}
+.back-btn {
+    cursor: pointer;
 }

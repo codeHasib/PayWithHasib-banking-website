@@ -22,7 +22,7 @@
   </head>
   <body>
     <!-- User Info Interface -->
-    <section id="user-info" class="text-center bg-amber-50 h-[100vh] w-[100vw]">
+    <section id="user-info" class="text-center h-[100vh] w-[100vw]">
       <div
         class="bg-[url(/assets/user-info-bg.png)] bg-no-repeat bg-cover bg-center h-[55vh]"
       >
@@ -68,7 +68,80 @@
     </section>
     <!-- User Info Interface is done -->
 
-    
+    <header class="app py-3 px-5 max-w-[1200px] m-auto bg-[#f9efe5]">
+      <div class="flex items-center">
+        <img
+          src="./assets/logo.png"
+          alt="Logo of PayWithHasib"
+          class="w-[100px]"
+        />
+        <h2 class="text-2xl font-extrabold">PayWithHasib</h2>
+      </div>
+      <div class="flex justify-between">
+        <h2 class="userNameDisplay text-2xl font-bold"></h2>
+        <h2 class="userAmountDisplay text-2xl font-bold"></h2>
+      </div>
+    </header>
+
+    <section id="transactions" class="app bg-black text-white mt-7">
+      <div class="flex items-center flex-wrap justify-around">
+        <div class="transaction deposit">
+          <i class="fa-regular fa-square-plus"></i>
+          <h3>Deposit</h3>
+        </div>
+        <div class="transaction send">
+          <i class="fa-regular fa-paper-plane"></i>
+          <h3>Send</h3>
+        </div>
+        <div class="transaction withdraw">
+          <i class="fa-regular fa-square-minus"></i>
+          <h3>Withdraw</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- Deposit page -->
+    <section id="depositPage" class="transaction-pages">
+      <div
+        class="transaction-page-heading bg-[url(/assets/deposit.png)] bg-no-repeat bg-center bg-contain"
+      >
+        <i class="fa-solid fa-angle-left back-btn"></i>
+        <h2>Deposit Money</h2>
+      </div>
+      <div class="transaction-page-input">
+        <input class="depositInput" type="number" placeholder="Enter Amount" />
+        <button class="depositBtn">Deposit</button>
+      </div>
+    </section>
+
+    <!-- Send Money Page -->
+    <section id="sendMoneyPage" class="transaction-pages">
+      <div
+        class="transaction-page-heading bg-[url(/assets/sendmoney.png)] bg-no-repeat bg-center bg-contain"
+      >
+        <i class="fa-solid fa-angle-left back-btn"></i>
+        <h2>Send Money</h2>
+      </div>
+      <div class="transaction-page-input">
+        <input type="number" placeholder="Enter Amount" />
+        <button class="sendMoneyBtn">Send</button>
+      </div>
+    </section>
+
+    <!-- Withdraw Page -->
+    <section id="withdrawPage" class="transaction-pages">
+      <div
+        class="transaction-page-heading bg-[url(/assets/withdraw.png)] bg-no-repeat bg-center bg-contain"
+      >
+        <i class="fa-solid fa-angle-left back-btn"></i>
+        <h2>Withdraw Money</h2>
+      </div>
+      <div class="transaction-page-input">
+        <input type="number" placeholder="Enter Amount" />
+        <button class="withdrawBtn">Withdraw</button>
+      </div>
+    </section>
+
     <script src="./script/script.js"></script>
   </body>
 </html>
