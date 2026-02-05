@@ -61,7 +61,8 @@ deposit.addEventListener("click", () => {
 depositBtn.addEventListener("click", () => {
   const amount = Number(depositInput.value);
   if (amount > 0) {
-    depoWarnMsg.textContent = "";
+    depoWarnMsg.style.color = "lightgreen";
+    depoWarnMsg.textContent = "Deposit Successfull!";
     appState.userAmount += amount;
     render();
     appState.transactions.push({
@@ -72,6 +73,7 @@ depositBtn.addEventListener("click", () => {
     checkHistory();
     depositInput.value = "";
   } else {
+    depoWarnMsg.style.color = "red";
     depoWarnMsg.textContent = "Invalid input";
   }
 });
@@ -87,7 +89,8 @@ send.addEventListener("click", () => {
 sendBtn.addEventListener("click", () => {
   const amount = Number(sendInput.value);
   if (amount <= appState.userAmount && amount > 0) {
-    sendWarnMsg.textContent = "";
+    sendWarnMsg.style.color = "lightgreen";
+    sendWarnMsg.textContent = "Send Money Successfull!";
     appState.userAmount -= amount;
     render();
     appState.transactions.push({
@@ -98,6 +101,7 @@ sendBtn.addEventListener("click", () => {
     checkHistory();
     sendInput.value = "";
   } else {
+    sendWarnMsg.style.color = "red";
     sendWarnMsg.textContent = "Insufficient Balance or Invalid Input";
   }
 });
@@ -113,7 +117,8 @@ withdraw.addEventListener("click", () => {
 withdrawBtn.addEventListener("click", () => {
   const amount = Number(withdrawInput.value);
   if (amount <= appState.userAmount && amount > 0) {
-    withWarnMsg.textContent = "";
+    withdraw.style.color = "lightgreen";
+    withWarnMsg.textContent = "Withdraw Successful";
     appState.userAmount -= amount;
     render();
     appState.transactions.push({
@@ -124,6 +129,7 @@ withdrawBtn.addEventListener("click", () => {
     checkHistory();
     withdrawInput.value = "";
   } else {
+    withWarnMsg.style.color = "red";
     withWarnMsg.textContent = "Insufficient Balance or Invalid Input";
   }
 });
