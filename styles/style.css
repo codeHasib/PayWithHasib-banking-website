@@ -1,4 +1,29 @@
 @import "tailwindcss";
+/* Default Styles */
 * {
     font-family: "open sans" , sans-serif;
+}
+section {
+    max-width: 1200px;
+    margin: auto;
+    padding: 10px 25px;
+}
+.logo {
+    width: 120px;
+}
+/* Same Styles */
+#user-info-inputs input {
+    border: 1px solid black;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-size: 18px;
+    -webkit-appearance: none;
+}
+#user-info-inputs input::-webkit-outer-spin-button,
+#user-info-inputs input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.main {
+    display: none;
 }
