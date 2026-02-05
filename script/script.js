@@ -61,6 +61,7 @@ deposit.addEventListener("click", () => {
 depositBtn.addEventListener("click", () => {
   const amount = Number(depositInput.value);
   if (amount > 0) {
+    depoWarnMsg.textContent = "";
     appState.userAmount += amount;
     render();
     appState.transactions.push({
@@ -86,6 +87,7 @@ send.addEventListener("click", () => {
 sendBtn.addEventListener("click", () => {
   const amount = Number(sendInput.value);
   if (amount <= appState.userAmount && amount > 0) {
+    sendWarnMsg.textContent = "";
     appState.userAmount -= amount;
     render();
     appState.transactions.push({
@@ -109,8 +111,9 @@ withdraw.addEventListener("click", () => {
   hideApp();
 });
 withdrawBtn.addEventListener("click", () => {
-  const amount = Number(sendInput.value);
+  const amount = Number(withdrawInput.value);
   if (amount <= appState.userAmount && amount > 0) {
+    withWarnMsg.textContent = "";
     appState.userAmount -= amount;
     render();
     appState.transactions.push({
