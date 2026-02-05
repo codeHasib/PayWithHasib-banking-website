@@ -24,11 +24,11 @@
     <!-- User Info Interface -->
     <section id="user-info" class="text-center h-[100vh] w-[100vw]">
       <div
-        class="bg-[url(/assets/user-info-bg.png)] bg-no-repeat bg-cover bg-center h-[55vh]"
+        class="bg-[url(/assets/user-info-bg.png)] bg-no-repeat bg-contain bg-center h-[55vh] mb-10"
       >
-        <div class="flex items-center">
+        <div class="flex items-center justify-center">
           <img
-            src="./assets/logo.png"
+            src="./assets/logo.svg"
             alt="Logo of PayWithHasib"
             class="logo"
           />
@@ -71,7 +71,7 @@
     <header class="app py-3 px-5 max-w-[1200px] m-auto bg-[#f9efe5]">
       <div class="flex items-center">
         <img
-          src="./assets/logo.png"
+          src="./assets/logo.svg"
           alt="Logo of PayWithHasib"
           class="w-[100px]"
         />
@@ -100,15 +100,31 @@
       </div>
     </section>
 
+    <section id="hero" class="app ">
+        <img src="./assets/hero.png" class="block mt-10 w-[100%]" alt="Banner Image About PayWithHasib">
+    </section>
+
+    <section id="history" class="app">
+        <h2 class="text-2xl text-center font-bold mb-10 underline">
+            Transaction history
+        </h2>
+        <div class="historyDiv bg-amber-100 rounded-2xl p-5">
+        </div>
+    </section>
+
     <!-- Deposit page -->
     <section id="depositPage" class="transaction-pages">
       <div
         class="transaction-page-heading bg-[url(/assets/deposit.png)] bg-no-repeat bg-center bg-contain"
       >
-        <i class="fa-solid fa-angle-left back-btn"></i>
-        <h2>Deposit Money</h2>
+        <div class="flex">
+          <i class="fa-solid fa-angle-left back-btn"></i>
+          <h2>Deposit Money</h2>
+        </div>
+        <h2 class="userAmountDisplay"></h2>
       </div>
       <div class="transaction-page-input">
+        <p class="depoWarnMsg text-red-500 font-bold"></p>
         <input class="depositInput" type="number" placeholder="Enter Amount" />
         <button class="depositBtn">Deposit</button>
       </div>
@@ -119,11 +135,15 @@
       <div
         class="transaction-page-heading bg-[url(/assets/sendmoney.png)] bg-no-repeat bg-center bg-contain"
       >
-        <i class="fa-solid fa-angle-left back-btn"></i>
-        <h2>Send Money</h2>
+        <div class="flex">
+          <i class="fa-solid fa-angle-left back-btn"></i>
+          <h2>Send Money</h2>
+        </div>
+        <h2 class="userAmountDisplay"></h2>
       </div>
       <div class="transaction-page-input">
-        <input type="number" placeholder="Enter Amount" />
+        <p class="sendWarnMsg text-red-500 font-bold"></p>
+        <input type="number" class="sendMoneyInput" placeholder="Enter Amount" />
         <button class="sendMoneyBtn">Send</button>
       </div>
     </section>
@@ -133,11 +153,15 @@
       <div
         class="transaction-page-heading bg-[url(/assets/withdraw.png)] bg-no-repeat bg-center bg-contain"
       >
-        <i class="fa-solid fa-angle-left back-btn"></i>
-        <h2>Withdraw Money</h2>
+        <div class="flex">
+          <i class="fa-solid fa-angle-left back-btn"></i>
+          <h2>Withdraw Money</h2>
+        </div>
+        <h2 class="userAmountDisplay"></h2>
       </div>
       <div class="transaction-page-input">
-        <input type="number" placeholder="Enter Amount" />
+        <p class="withWarnMsg text-red-500 font-bold"></p>
+        <input type="number" placeholder="Enter Amount" class="withdrawInput"/>
         <button class="withdrawBtn">Withdraw</button>
       </div>
     </section>
