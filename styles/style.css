@@ -70,6 +70,16 @@ input::-webkit-inner-spin-button {
         margin-top: 6px;
     }
 }
+@media screen and (max-width: 576px) {
+    .transaction-page-heading h2 {
+        font-size: 24px;
+        margin-top: px;
+    }
+    .transaction-page-heading i {
+        font-size: 24px;
+    }
+}
+
 .transaction-page-input {
     display: flex;
     flex-direction: column;

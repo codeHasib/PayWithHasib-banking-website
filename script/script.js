@@ -113,19 +113,20 @@ function transactionSuccessPopUp(methodType) {
   popUpDiv.classList.add("animate-popup-start");
   popUpMethodType.textContent = methodType;
   popUpMoney.textContent = appState.userAmount;
+  function hidePopUp() {
+    popUpDiv.classList.remove("animate-popup-start");
+    transSuccessPopUp.style.display = "none";
+  }
   popUpHomeBtn.addEventListener("click", () => {
     showApp();
     hideTransactionPages();
-    transSuccessPopUp.classList.add("animate-popup-close");
-    transSuccessPopUp.style.display = "none";
+    hidePopUp();
   });
   popUpAgainBtn.addEventListener("click", () => {
-    transSuccessPopUp.classList.add("animate-popup-close");
-    transSuccessPopUp.style.display = "none";
+    hidePopUp();
   });
   closePopUpBtn.addEventListener("click", () => {
-    transSuccessPopUp.classList.add("animate-popup-close");
-    transSuccessPopUp.style.display = "none";
+    hidePopUp();
   });
 }
 
