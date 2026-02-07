@@ -102,7 +102,7 @@ userInfoSubmitBtn.addEventListener("click", () => {
   userAuthentication();
 });
 const transSuccessPopUp = document.querySelector("#successfulTransPopUp");
-const popUpMethodType = document.querySelector(".methodType");
+const popUpMethodType = document.querySelectorAll(".methodType");
 const popUpMoney = document.querySelector(".remainingMoney");
 const popUpHomeBtn = document.querySelector(".popUp-homeBtn");
 const popUpAgainBtn = document.querySelector(".popUp-againBtn");
@@ -111,7 +111,7 @@ const popUpDiv = document.querySelector(".popUp-div");
 function transactionSuccessPopUp(methodType) {
   transSuccessPopUp.style.display = "flex";
   popUpDiv.classList.add("animate-popup-start");
-  popUpMethodType.textContent = methodType;
+  popUpMethodType.forEach(type=> type.textContent = methodType);
   popUpMoney.textContent = appState.userAmount;
   function hidePopUp() {
     popUpDiv.classList.remove("animate-popup-start");
