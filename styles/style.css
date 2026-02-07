@@ -58,14 +58,15 @@ input::-webkit-inner-spin-button {
     height: 60vh;
     display: flex;
     text-align: center;
-    gap: 10px;
+    /* gap: 10px; */
     justify-content: space-between;
     h2 {
-        font-size: 20px;
+        font-size: 30px;
         font-weight: bolder;
+        margin-left: 20px;
     }
     i {
-        font-size: 20px;
+        font-size: 40px;
         margin-top: 6px;
     }
 }
@@ -112,4 +113,7 @@ input::-webkit-inner-spin-button {
 .historyDiv h4 {
     font-size: 18px;
     font-weight: lighter;
+}
+#successfulTransPopUp {
+    display: none;
 }

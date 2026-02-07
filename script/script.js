@@ -6,12 +6,26 @@ let appState = {
 const userInfoInterface = document.querySelector("#user-info");
 const userNameInput = document.querySelector(".user-name");
 const userNameWarning = document.querySelector(".name-msg");
+const userPinInput = document.querySelector(".user-pin");
+const userPinWarning = document.querySelector(".pin-msg");
 const userAmountInput = document.querySelector(".user-amount");
 const userAmountWarning = document.querySelector(".amount-msg");
 const appDisplay = document.querySelectorAll(".app");
 const userInfoSubmitBtn = document.querySelector(".user-info-submit");
 const userNameDisplay = document.querySelector(".userNameDisplay");
 const userAmountDisplay = document.querySelectorAll(".userAmountDisplay");
+userPinInput.addEventListener("keydown", (e) => {
+  if (e.key === "-" || e.key === "+") {
+    e.preventDefault();
+  }
+});
+userPinInput.addEventListener("input", () => {
+  const maxValue = 4;
+  let currentInputLength = userPinInput.value.length;
+  if (currentInputLength > maxValue) {
+    userPinInput.value = userPinInput.value.slice(0, maxValue);
+  }
+});
 function render() {
   userNameDisplay.textContent = `Hi, ${appState.userName}`;
   userAmountDisplay.forEach((display) => {
@@ -28,25 +42,91 @@ function hideApp() {
     section.style.display = "none";
   });
 }
-userInfoSubmitBtn.addEventListener("click", () => {
+function userAuthentication() {
   const userNameInputValue = userNameInput.value.trim();
+  const userAmountLength = userAmountInput.value.length;
   const userAmountInputValue = Number(userAmountInput.value);
-  if (userNameInputValue.length === 0 && userAmountInputValue === 0) {
-    userNameWarning.textContent = "Please Provide Your Name";
-    userAmountWarning.textContent = "Please Provide Your Amount";
-  } else if (userNameInputValue.length < 3) {
-    userNameWarning.textContent = "Name Is Too Short";
-  } else if (userAmountInputValue < 0) {
-    userAmountWarning.textContent = "Amount Must Be Greater then 0";
+  const userPinInputValue = userPinInput.value;
+  if (
+    userNameInputValue.length === 0 ||
+    userAmountLength === 0 ||
+    userPinInputValue.length === 0
+  ) {
+    userNameWarning.textContent = "Please provide all the information";
+    return;
   } else {
-    appState.userName = userNameInputValue;
-    appState.userAmount = userAmountInputValue;
-    showApp();
-    render();
-    checkHistory();
-    userInfoInterface.style.display = "none";
+    userNameWarning.textContent = "";
+  }
+
+  if (userNameInputValue.length < 3) {
+    userNameWarning.textContent = "Please provide a valid name";
+    return;
+  } else {
+    userNameWarning.textContent = "";
+  }
+  if (userPinInputValue.length < 4) {
+    userPinWarning.textContent = "Please provide 4-digit pin";
+    return;
+  } else {
+    userPinWarning.textContent = "";
+  }
+  if (userAmountInputValue <= 0) {
+    userAmountWarning.textContent = "Please provide a valid amount";
+    return;
+  } else {
+    userAmountWarning.textContent = "";
+  }
+  appState.userName = userNameInputValue;
+  appState.userAmount = userAmountInputValue;
+  checkHistory();
+  userInfoInterface.style.display = "none";
+  showApp();
+  render();
+}
+userNameInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    userAuthentication();
   }
 });
+userPinInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    userAuthentication();
+  }
+});
+userAmountInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    userAuthentication();
+  }
+});
+userInfoSubmitBtn.addEventListener("click", () => {
+  userAuthentication();
+});
+const transSuccessPopUp = document.querySelector("#successfulTransPopUp");
+const popUpMethodType = document.querySelector(".methodType");
+const popUpMoney = document.querySelector(".remainingMoney");
+const popUpHomeBtn = document.querySelector(".popUp-homeBtn");
+const popUpAgainBtn = document.querySelector(".popUp-againBtn");
+const closePopUpBtn = document.querySelector(".close-popup");
+function transactionSuccessPopUp(methodType) {
+  transSuccessPopUp.classList.add("animate-popup-start");
+  transSuccessPopUp.style.display = "flex";
+  popUpMethodType.textContent = methodType;
+  popUpMoney.textContent = appState.userAmount;
+  popUpHomeBtn.addEventListener("click", () => {
+    showApp();
+    hideTransactionPages();
+    transSuccessPopUp.classList.add("animate-popup-close");
+    transSuccessPopUp.style.display = "none";
+  });
+  popUpAgainBtn.addEventListener("click", () => {
+    transSuccessPopUp.classList.add("animate-popup-close");
+    transSuccessPopUp.style.display = "none";
+  });
+  closePopUpBtn.addEventListener("click", () => {
+    transSuccessPopUp.classList.add("animate-popup-close");
+    transSuccessPopUp.style.display = "none";
+  });
+}
 
 const deposit = document.querySelector(".deposit");
 const depositPage = document.querySelector("#depositPage");
@@ -58,11 +138,10 @@ deposit.addEventListener("click", () => {
   render();
   hideApp();
 });
-depositBtn.addEventListener("click", () => {
+function depositRun() {
   const amount = Number(depositInput.value);
   if (amount > 0) {
-    depoWarnMsg.style.color = "lightgreen";
-    depoWarnMsg.textContent = "Deposit Successfull!";
+    depoWarnMsg.textContent = "";
     appState.userAmount += amount;
     render();
     appState.transactions.push({
@@ -71,11 +150,20 @@ depositBtn.addEventListener("click", () => {
       time: new Date().toLocaleString(),
     });
     checkHistory();
+    transactionSuccessPopUp("Deposit");
     depositInput.value = "";
   } else {
     depoWarnMsg.style.color = "red";
     depoWarnMsg.textContent = "Invalid input";
   }
+}
+depositInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    depositRun();
+  }
+});
+depositBtn.addEventListener("click", () => {
+  depositRun();
 });
 const send = document.querySelector(".send");
 const sendInput = document.querySelector(".sendMoneyInput");
@@ -86,11 +174,10 @@ send.addEventListener("click", () => {
   sendMoneyPage.style.display = "block";
   hideApp();
 });
-sendBtn.addEventListener("click", () => {
+function sendMoneyRun() {
   const amount = Number(sendInput.value);
   if (amount <= appState.userAmount && amount > 0) {
-    sendWarnMsg.style.color = "lightgreen";
-    sendWarnMsg.textContent = "Send Money Successfull!";
+    sendWarnMsg.textContent = "";
     appState.userAmount -= amount;
     render();
     appState.transactions.push({
@@ -99,11 +186,20 @@ sendBtn.addEventListener("click", () => {
       time: new Date().toLocaleString(),
     });
     checkHistory();
+    transactionSuccessPopUp("Send Money");
     sendInput.value = "";
   } else {
     sendWarnMsg.style.color = "red";
     sendWarnMsg.textContent = "Insufficient Balance or Invalid Input";
   }
+}
+sendInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    sendMoneyRun();
+  }
+});
+sendBtn.addEventListener("click", () => {
+  sendMoneyRun();
 });
 const withdraw = document.querySelector(".withdraw");
 const withdrawBtn = document.querySelector(".withdrawBtn");
@@ -114,13 +210,13 @@ withdraw.addEventListener("click", () => {
   withdrawPage.style.display = "block";
   hideApp();
 });
-withdrawBtn.addEventListener("click", () => {
+function withdrawRun() {
   const amount = Number(withdrawInput.value);
   if (amount <= appState.userAmount && amount > 0) {
-    withdraw.style.color = "lightgreen";
-    withWarnMsg.textContent = "Withdraw Successful";
+    withWarnMsg.textContent = "";
     appState.userAmount -= amount;
     render();
+    transactionSuccessPopUp("Withdraw Money");
     appState.transactions.push({
       type: "Withdraw",
       amount: amount,
@@ -132,9 +228,23 @@ withdrawBtn.addEventListener("click", () => {
     withWarnMsg.style.color = "red";
     withWarnMsg.textContent = "Insufficient Balance or Invalid Input";
   }
+}
+withdrawInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    withdrawRun();
+  }
+});
+withdrawBtn.addEventListener("click", () => {
+  withdrawRun();
 });
 const backBtn = document.querySelectorAll(".back-btn");
 const transactionPages = document.querySelectorAll(".transaction-pages");
+function showTransactionPages() {
+  transactionPages.forEach((section) => (section.style.display = "block"));
+}
+function hideTransactionPages() {
+  transactionPages.forEach((section) => (section.style.display = "none"));
+}
 backBtn.forEach((btn) => {
   btn.addEventListener("click", () => {
     transactionPages.forEach((section) => {
