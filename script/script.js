@@ -107,9 +107,10 @@ const popUpMoney = document.querySelector(".remainingMoney");
 const popUpHomeBtn = document.querySelector(".popUp-homeBtn");
 const popUpAgainBtn = document.querySelector(".popUp-againBtn");
 const closePopUpBtn = document.querySelector(".close-popup");
+const popUpDiv = document.querySelector(".popUp-div");
 function transactionSuccessPopUp(methodType) {
-  transSuccessPopUp.classList.add("animate-popup-start");
   transSuccessPopUp.style.display = "flex";
+  popUpDiv.classList.add("animate-popup-start");
   popUpMethodType.textContent = methodType;
   popUpMoney.textContent = appState.userAmount;
   popUpHomeBtn.addEventListener("click", () => {
@@ -255,15 +256,15 @@ backBtn.forEach((btn) => {
 });
 const historyDiv = document.querySelector(".historyDiv");
 function checkHistory() {
+  historyDiv.innerHTML = "";
   if (appState.transactions.length > 0) {
-    historyDiv.innerHTML = "";
     appState.transactions.forEach((trans) => {
       let div = document.createElement("div");
       let h2 = document.createElement("h2");
       h2.textContent = trans.type;
       div.append(h2);
       let h3 = document.createElement("h3");
-      h3.textContent = trans.amount;
+      h3.textContent = `$${trans.amount}`;
       div.append(h3);
       let h4 = document.createElement("h4");
       h4.textContent = trans.time;
