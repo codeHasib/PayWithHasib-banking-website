@@ -151,6 +151,13 @@
       <div class="transaction-page-input">
         <p class="depoWarnMsg text-red-500 font-bold"></p>
         <input class="depositInput" type="number" placeholder="Enter Amount" />
+        <input class="depoPinInput" type="number" placeholder="Enter Pin" />
+        <select id="depositMethod">
+          <option value="default" selected disabled>Select Your Deposit Method</option>
+          <option value="card">Card</option>
+          <option value="bank">Bank</option>
+          <option value="cash">Cash</option>
+        </select>
         <button class="depositBtn">Deposit</button>
       </div>
     </section>
@@ -173,6 +180,8 @@
           class="sendMoneyInput"
           placeholder="Enter Amount"
         />
+        <input class="sendAccNum" type="number" placeholder="Enter Account Number" />
+        <input class="sendPinInput" type="number" placeholder="Enter Pin" />
         <button class="sendMoneyBtn">Send</button>
       </div>
     </section>
@@ -191,6 +200,7 @@
       <div class="transaction-page-input">
         <p class="withWarnMsg text-red-500 font-bold"></p>
         <input type="number" placeholder="Enter Amount" class="withdrawInput" />
+        <input class="withPinInput" type="number" placeholder="Enter Pin" />
         <button class="withdrawBtn">Withdraw</button>
       </div>
     </section>

@@ -1,5 +1,6 @@
 let appState = {
   userName: "",
+  userPin: "",
   userAmount: 0,
   transactions: [],
 };
@@ -77,6 +78,7 @@ function userAuthentication() {
     userAmountWarning.textContent = "";
   }
   appState.userName = userNameInputValue;
+  appState.userPin = userPinInput.value;
   appState.userAmount = userAmountInputValue;
   checkHistory();
   userInfoInterface.style.display = "none";
@@ -111,7 +113,7 @@ const popUpDiv = document.querySelector(".popUp-div");
 function transactionSuccessPopUp(methodType) {
   transSuccessPopUp.style.display = "flex";
   popUpDiv.classList.add("animate-popup-start");
-  popUpMethodType.forEach(type=> type.textContent = methodType);
+  popUpMethodType.forEach((type) => (type.textContent = methodType));
   popUpMoney.textContent = appState.userAmount;
   function hidePopUp() {
     popUpDiv.classList.remove("animate-popup-start");
@@ -130,11 +132,13 @@ function transactionSuccessPopUp(methodType) {
   });
 }
 
+const depoUserPin = document.querySelector(".depoPinInput");
 const deposit = document.querySelector(".deposit");
 const depositPage = document.querySelector("#depositPage");
 const depositBtn = document.querySelector(".depositBtn");
 const depositInput = document.querySelector(".depositInput");
 const depoWarnMsg = document.querySelector(".depoWarnMsg");
+const depoMethod = document.querySelector("#depositMethod");
 deposit.addEventListener("click", () => {
   depositPage.style.display = "block";
   render();
@@ -142,18 +146,27 @@ deposit.addEventListener("click", () => {
 });
 function depositRun() {
   const amount = Number(depositInput.value);
-  if (amount > 0) {
-    depoWarnMsg.textContent = "";
-    appState.userAmount += amount;
-    render();
-    appState.transactions.push({
-      type: "Deposit",
-      amount: amount,
-      time: new Date().toLocaleString(),
-    });
-    checkHistory();
-    transactionSuccessPopUp("Deposit");
-    depositInput.value = "";
+  let depoMethodValue = depoMethod.value;
+  let depoPinValue = depoUserPin.value;
+  if (amount > 0 && depoMethodValue && depoPinValue.length > 0) {
+    if (depoPinValue === appState.userPin) {
+      depoUserPin.value = "";
+      depoMethod.value = "default";
+      depoWarnMsg.textContent = "";
+      appState.userAmount += amount;
+      render();
+      appState.transactions.push({
+        type: "Deposit",
+        method: depoMethodValue,
+        amount: amount,
+        time: new Date().toLocaleString(),
+      });
+      checkHistory();
+      transactionSuccessPopUp("Deposit");
+      depositInput.value = "";
+    } else {
+      depoWarnMsg.textContent = "Incorrect User Pin";
+    }
   } else {
     depoWarnMsg.style.color = "red";
     depoWarnMsg.textContent = "Invalid input";
@@ -167,6 +180,9 @@ depositInput.addEventListener("keydown", (e) => {
 depositBtn.addEventListener("click", () => {
   depositRun();
 });
+
+const sendUserPin = document.querySelector(".sendPinInput");
+const sendUserAccNum = document.querySelector(".sendAccNum");
 const send = document.querySelector(".send");
 const sendInput = document.querySelector(".sendMoneyInput");
 const sendBtn = document.querySelector(".sendMoneyBtn");
@@ -178,18 +194,32 @@ send.addEventListener("click", () => {
 });
 function sendMoneyRun() {
   const amount = Number(sendInput.value);
-  if (amount <= appState.userAmount && amount > 0) {
-    sendWarnMsg.textContent = "";
-    appState.userAmount -= amount;
-    render();
-    appState.transactions.push({
-      type: "Send Money",
-      amount: amount,
-      time: new Date().toLocaleString(),
-    });
-    checkHistory();
-    transactionSuccessPopUp("Send Money");
-    sendInput.value = "";
+  const sendNumValue = sendUserAccNum.value;
+  const sendPinValue = sendUserPin.value;
+  if (
+    amount <= appState.userAmount &&
+    amount > 0 &&
+    sendNumValue.length > 0 &&
+    sendPinValue.length > 0
+  ) {
+    if (sendPinValue === appState.userPin) {
+      sendUserAccNum.value = "";
+      sendUserPin.value = "";
+      sendWarnMsg.textContent = "";
+      appState.userAmount -= amount;
+      render();
+      appState.transactions.push({
+        type: "Send Money",
+        accNum: sendNumValue,
+        amount: amount,
+        time: new Date().toLocaleString(),
+      });
+      checkHistory();
+      transactionSuccessPopUp("Send Money");
+      sendInput.value = "";
+    } else {
+      sendWarnMsg.textContent = "Incorrect Pin";
+    }
   } else {
     sendWarnMsg.style.color = "red";
     sendWarnMsg.textContent = "Insufficient Balance or Invalid Input";
@@ -203,6 +233,8 @@ sendInput.addEventListener("keydown", (e) => {
 sendBtn.addEventListener("click", () => {
   sendMoneyRun();
 });
+
+const withUserPin = document.querySelector(".withPinInput");
 const withdraw = document.querySelector(".withdraw");
 const withdrawBtn = document.querySelector(".withdrawBtn");
 const withdrawInput = document.querySelector(".withdrawInput");
@@ -214,18 +246,24 @@ withdraw.addEventListener("click", () => {
 });
 function withdrawRun() {
   const amount = Number(withdrawInput.value);
-  if (amount <= appState.userAmount && amount > 0) {
-    withWarnMsg.textContent = "";
-    appState.userAmount -= amount;
-    render();
-    transactionSuccessPopUp("Withdraw Money");
-    appState.transactions.push({
-      type: "Withdraw",
-      amount: amount,
-      time: new Date().toLocaleString(),
-    });
-    checkHistory();
-    withdrawInput.value = "";
+  const withPinValue = withUserPin.value;
+  if (amount <= appState.userAmount && amount > 0 && withPinValue.length > 0) {
+    if (withPinValue === appState.userPin) {
+      withUserPin.value = "";
+      withWarnMsg.textContent = "";
+      appState.userAmount -= amount;
+      render();
+      transactionSuccessPopUp("Withdraw Money");
+      appState.transactions.push({
+        type: "Withdraw",
+        amount: amount,
+        time: new Date().toLocaleString(),
+      });
+      checkHistory();
+      withdrawInput.value = "";
+    } else {
+      withWarnMsg.textContent = "Incorrect Pin";
+    }
   } else {
     withWarnMsg.style.color = "red";
     withWarnMsg.textContent = "Insufficient Balance or Invalid Input";
@@ -255,27 +293,78 @@ backBtn.forEach((btn) => {
     showApp();
   });
 });
+
 const historyDiv = document.querySelector(".historyDiv");
 function checkHistory() {
   historyDiv.innerHTML = "";
+  const deposits = [];
+  const sendMoneys = [];
+  const withdraws = [];
   if (appState.transactions.length > 0) {
     appState.transactions.forEach((trans) => {
-      let div = document.createElement("div");
-      let h2 = document.createElement("h2");
-      h2.textContent = trans.type;
-      div.append(h2);
-      let h3 = document.createElement("h3");
-      h3.textContent = `$${trans.amount}`;
-      div.append(h3);
-      let h4 = document.createElement("h4");
-      h4.textContent = trans.time;
-      div.append(h4);
-      historyDiv.append(div);
+      if (trans.type === "Deposit") {
+        deposits.push(trans);
+      } else if (trans.type === "Send Money") {
+        sendMoneys.push(trans);
+      } else {
+        withdraws.push(trans);
+      }
     });
+    if (deposits.length > 0) {
+      deposits.forEach((deposit) => {
+        let div = document.createElement("div");
+        let h2 = document.createElement("h2");
+        h2.textContent = deposit.type;
+        div.append(h2);
+        let h3 = document.createElement("h3");
+        h3.textContent = `$${deposit.amount}`;
+        div.append(h3);
+        let methodH3 = document.createElement("h3");
+        methodH3.textContent = `Method : ${deposit.method}`;
+        div.append(methodH3);
+        let h4 = document.createElement("h4");
+        h4.textContent = deposit.time;
+        div.append(h4);
+        historyDiv.append(div);
+      });
+    }
+    if (sendMoneys.length > 0) {
+      sendMoneys.forEach((sendMoney) => {
+        let div = document.createElement("div");
+        let h2 = document.createElement("h2");
+        h2.textContent = sendMoney.type;
+        div.append(h2);
+        let h3 = document.createElement("h3");
+        h3.textContent = `$${sendMoney.amount}`;
+        div.append(h3);
+        let accNumH3 = document.createElement("h3");
+        accNumH3.textContent = `Account Number : ${sendMoney.accNum}`;
+        div.append(accNumH3);
+        let h4 = document.createElement("h4");
+        h4.textContent = sendMoney.time;
+        div.append(h4);
+        historyDiv.append(div);
+      });
+    }
+    if (withdraws.length > 0) {
+      withdraws.forEach((withdraw) => {
+        let div = document.createElement("div");
+        let h2 = document.createElement("h2");
+        h2.textContent = withdraw.type;
+        div.append(h2);
+        let h3 = document.createElement("h3");
+        h3.textContent = `$${withdraw.amount}`;
+        div.append(h3);
+        let h4 = document.createElement("h4");
+        h4.textContent = withdraw.time;
+        div.append(h4);
+        historyDiv.append(div);
+      });
+    }
   } else {
     let h2 = document.createElement("h2");
-    h2.style.textAlign = "center";
-    h2.textContent = "No History";
+    h2.textContent = "No history";
     historyDiv.append(h2);
   }
+  console.log(deposits, sendMoneys, withdraws);
 }
