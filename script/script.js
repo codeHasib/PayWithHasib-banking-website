@@ -165,7 +165,7 @@ function depositRun() {
       transactionSuccessPopUp("Deposit");
       depositInput.value = "";
     } else {
-      depoWarnMsg.textContent = "Incorrect User Pin";
+      depoWarnMsg.textContent = " Incorrect User Pin (Please enter the pin you used for login!) ";
     }
   } else {
     depoWarnMsg.style.color = "red";
@@ -218,7 +218,7 @@ function sendMoneyRun() {
       transactionSuccessPopUp("Send Money");
       sendInput.value = "";
     } else {
-      sendWarnMsg.textContent = "Incorrect Pin";
+      sendWarnMsg.textContent = " Incorrect User Pin (Please enter the pin you used for login!) ";
     }
   } else {
     sendWarnMsg.style.color = "red";
@@ -262,7 +262,7 @@ function withdrawRun() {
       checkHistory(appState);
       withdrawInput.value = "";
     } else {
-      withWarnMsg.textContent = "Incorrect Pin";
+      withWarnMsg.textContent = " Incorrect User Pin (Please enter the pin you used for login!) ";
     }
   } else {
     withWarnMsg.style.color = "red";
