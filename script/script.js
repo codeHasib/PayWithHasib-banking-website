@@ -80,7 +80,7 @@ function userAuthentication() {
   appState.userName = userNameInputValue;
   appState.userPin = userPinInput.value;
   appState.userAmount = userAmountInputValue;
-  checkHistory();
+  checkHistory(appState);
   userInfoInterface.style.display = "none";
   showApp();
   render();
@@ -161,7 +161,7 @@ function depositRun() {
         amount: amount,
         time: new Date().toLocaleString(),
       });
-      checkHistory();
+      checkHistory(appState);
       transactionSuccessPopUp("Deposit");
       depositInput.value = "";
     } else {
@@ -214,7 +214,7 @@ function sendMoneyRun() {
         amount: amount,
         time: new Date().toLocaleString(),
       });
-      checkHistory();
+      checkHistory(appState);
       transactionSuccessPopUp("Send Money");
       sendInput.value = "";
     } else {
@@ -259,7 +259,7 @@ function withdrawRun() {
         amount: amount,
         time: new Date().toLocaleString(),
       });
-      checkHistory();
+      checkHistory(appState);
       withdrawInput.value = "";
     } else {
       withWarnMsg.textContent = "Incorrect Pin";
@@ -295,13 +295,25 @@ backBtn.forEach((btn) => {
 });
 
 const historyDiv = document.querySelector(".historyDiv");
-function checkHistory() {
+const searchHistory = document.querySelector("#searchInput");
+searchHistory.addEventListener("input", ()=> {
+  const searchQuery = searchHistory.value.toLowerCase();
+  const filteredHistory = appState.transactions.filter(trans=> {
+    return trans.type.toLowerCase().includes(searchQuery);
+  });
+  const filteredObj = {
+    transactions: filteredHistory
+  };
+  checkHistory(filteredObj);
+  console.log(filteredObj.transactions);
+});
+function checkHistory(obj) {
   historyDiv.innerHTML = "";
   const deposits = [];
   const sendMoneys = [];
   const withdraws = [];
-  if (appState.transactions.length > 0) {
-    appState.transactions.forEach((trans) => {
+  if (obj.transactions.length > 0) {
+    obj.transactions.forEach((trans) => {
       if (trans.type === "Deposit") {
         deposits.push(trans);
       } else if (trans.type === "Send Money") {
@@ -366,5 +378,4 @@ function checkHistory() {
     h2.textContent = "No history";
     historyDiv.append(h2);
   }
-  console.log(deposits, sendMoneys, withdraws);
 }
